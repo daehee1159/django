@@ -1,0 +1,39 @@
+{# static으로 설정한 것을 html 문서로 불러 들이는 의미 #}
+{% load static %}
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{#    불러들인 static 파일 중 어떤 것을 적용할 지에 대해 경로를 설정#}
+    <link rel="stylesheet" href="{% static 'css/cover.css' %}">
+  </head>
+
+  <bdoy class="text-center" style="width: 100%;">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Cover</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Contact</a>
+          </nav>
+        </div>
+      </header>
+
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">Cover your page.</h1>
+        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+        <p class="lead">
+{#            {% url 'urls.py에서 지정한 이름' %} 이렇게 하면 링크 걸림#}
+          <a href="{% url 'blogMain' %}" class="btn btn-lg btn-secondary">Learn more</a>
+        </p>
+      </main>
+
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>
+      </footer>
+    </div>
+  </bdoy>
+</html>
