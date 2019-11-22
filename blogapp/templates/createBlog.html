@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST">
+{#        장고에서는 POST방식으로 데이터 전달 시 전달 과정에서 보안을 위해 csrf_token을 반드시 사용해야 함#}
+        {% csrf_token %}
+{#        form을 p태그로 변환 (as_Table, as_ul 등 있음)#}
+        {{ form.as_p }}
+        <input type="submit" value="저장" />
+    </form>
+{% endblock %}
