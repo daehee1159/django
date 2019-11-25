@@ -8,5 +8,5 @@ class CreateBlog(forms.ModelForm):
     class Meta:
         # Blog로부터 모델을 가져오고 그 중 title,pub_date,body를 가져옴
         model = Blog
-
-        fields = ['title', 'pub_date', 'body']
+        # pub_date는 자동입력되게 하여 삭제함
+        fields = ['title', 'author', 'body']
