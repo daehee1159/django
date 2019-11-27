@@ -30,6 +30,7 @@ urlpatterns = [
     # int:blog_id -> views.detail 함수에 넘길 블로그 글 번호
     # blogMain/detail/1 은 블로그 글 1번에 대한 detail 페이지가 나오게 됨
     path('blogMain/detail/<int:blog_id>', blogapp.views.detail, name='detail'),
+    path('oauth/', blogapp.views.oauth, name='oauth'),
 ]
 # MEDIA 경로를 참조하기 위함
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

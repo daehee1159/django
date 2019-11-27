@@ -1,5 +1,5 @@
 from django import forms
-from .models import Blog
+from .models import Blog, Comment
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 # 장고에서 기본적으로 지원하는 forms
@@ -21,4 +21,15 @@ class CreateBlog(forms.ModelForm):
                 attrs={'class': 'custom-select'},
             ),
             'body': forms.CharField(widget=CKEditorUploadingWidget()),
+        }
+
+# 댓글 폼 작성
+class BlogCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        # 내용을 입력할 것이기 때문에 comment_textfield 필드만 가져옴
+        fields = ['comment_textfield']
+        widgets = {
+            # 댓글 입력 폼은 html에서 Textarea 형태의 폼이기 때문에 rows와 cols를 지정하였고, 부트스트랩의 css클래스인 form-control을 활용함
+            'comment_textfield': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'cols': 40})
         }
