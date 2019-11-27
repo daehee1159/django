@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogapp.apps.BlogappConfig',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
+# media 루트 디렉토리의 하위 디렉토리로 위치하게 됨
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,3 +132,7 @@ STATICFILES_DIRS = [
 ]
 # 장고에서는 하나의 장고 프로젝트에서 흩어져있는 'static file' 들을 한 곳으로 모으는데, 이것은 프로젝트 디렉터뢰에서 static 디렉토리에 모을 것이라는 의미
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 사용자들이 올리는 파일들은 media 로 분류가 되며, media 루트를 설정해 주는 것
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

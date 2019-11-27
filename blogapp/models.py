@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 # Create your models here.
 
 # import된 models.Model을 매개변수로 받고 클래스안에 제목,날짜,내용으로 구성
@@ -16,4 +17,5 @@ class Blog(models.Model):
     # 나머지 인자들은 User 테이블에서 값이 삭제되면 author 항목도 영향을 받아 삭제가 됨
     # 기본값을 본인의 관리자 계정으로 설정
     author = models.ForeignKey(User, on_delete = True, null = True, default = 1)
-    body = models.TextField()
+    # 파일 업로드 필드로 적용
+    body = RichTextUploadingField()

@@ -16,10 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import blogapp.views
+from django.conf.urls import include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', blogapp.views.index, name='index'),
     path('blogMain/', blogapp.views.blogMain, name='blogMain'),
     path('blogMain/createBlog/', blogapp.views.createBlog, name='createBlog'),
+    # ckeditor가 url을 참조할 수 있도록 설정
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
+# MEDIA 경로를 참조하기 위함
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
