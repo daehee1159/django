@@ -19,3 +19,16 @@ class Blog(models.Model):
     author = models.ForeignKey(User, on_delete = True, null = True, default = 1)
     # 파일 업로드 필드로 적용
     body = RichTextUploadingField()
+
+class Comment (models.Model):
+    # 이전에 생성하였던 Blog 모델의 주키를 왜래키로 가져와서 객체를 생성
+    # Blog 모델의 주키를 Comment 모델이 참조하게 되면 블로그 글 1번의 댓글1, 블로그 글 1번의 댓글2 와같이 분류하여 참조 가능
+    blog = models.ForeignKey(Blog, on_delete=True, null=True)
+    # 댓글 작성일
+    comment_date = models.DateTimeField(auto_now_add = True)
+    # 댓글 작성자
+    comment_user = models.TextField(max_length=20)
+    # 댓글 프로필 이미지 url 주소
+    comment_thumbnail_url = models.TextField(max_length=300)
+    # 댓글 내용
+    comment_textfield = models.TextField()
