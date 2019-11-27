@@ -60,10 +60,10 @@ def detail(request, blog_id):
 
             login_request_url = 'https://kauth.kakao.com/oauth/authorize?'
             client_id = 'cc1c5a4a3f565e37c1a4765025219f73'
-            redirect_url = 'http://127.0.0.1:8000/oauth'
+            redirect_uri = 'http://127.0.0.1:8000/oauth'
 
             login_request_url += 'client_id=' + client_id
-            login_request_url += '&redirect_url=' + redirect_url
+            login_request_url += '&redirect_uri=' + redirect_uri
             login_request_url += '&response_type=code'
 
             return redirect(login_request_url)
