@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateBlog
 from .models import Blog
 # Create your views here.
@@ -32,3 +32,10 @@ def createBlog(request):
     # POST방식으로 넘어오면 CreateBlog() 폼에 값을 전달한 상태로 form 객체를 만듬
     # 그 폼 데이터들이 올바른 형식이면 form.is_valid() 데이터베이스에 저장을 함(form.save())
     # 그 후에 블로그 메인 화면으로 이동(redirect('blogMain'))
+
+def detail(request, blog_id):
+    # get_object_or_404 -> 모델로부터 객체를 받을 때 겍체가 있으면 받고, 없을 시 404에러 나오게 함
+    # 블로그 글 객체를 판별하기 위해 blog_id값을 매개변수로 받고, pk= 값에 대입함, 이는 주키(primary key)를 판별하기 위한 작업
+    blog_detail = get_object_or_404(Blog, pk = blog_id)
+
+    return render(request, 'deatil.html', {'blog_detail': blog_detail})

@@ -27,6 +27,9 @@ urlpatterns = [
     path('blogMain/createBlog/', blogapp.views.createBlog, name='createBlog'),
     # ckeditor가 url을 참조할 수 있도록 설정
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    # int:blog_id -> views.detail 함수에 넘길 블로그 글 번호
+    # blogMain/detail/1 은 블로그 글 1번에 대한 detail 페이지가 나오게 됨
+    path('blogMain/detail/<int:blog_id>', blogapp.views.detail, name='detail'),
 ]
 # MEDIA 경로를 참조하기 위함
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

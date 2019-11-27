@@ -18,11 +18,17 @@
                 <br>
                 <h4>작성자 : {{ blog.author }}</h4>
                 <br>
+
 {#                장고는 기본적으로 <,>,& 등의 문자를 자동적으로 auto-escape함#}
 {#                모든 것에 적용되는 것은 아니므로 이런상황의 경우 safe 필터를 사용#}
-                <p class="lead">{{ blog.body | safe }}</p>
-                <br>
-                <a class="btn btn-lg btn-primary" href="{{ site.baseurl }}/docs/{{ site.docs_version }}/components/navbar/"
+
+{#                detail 페이지로 이동 시 블로그 글 내용이 출력되므로 굳이 블로그 메인 화면에서 내용을 출력 할 필요 없음#}
+{#                <p class="lead">{{ blog.body | safe }}</p>#}
+{#                <br>#}
+                <a class="btn btn-lg btn-primary"
+{#                   url 템플릿을 활용하여 연결하되, 블로그 글의 번호를 인수로 넘겨줌#}
+                   href="{% url 'detail' blog.id %}"
+{#                   href="{{ site.baseurl }}/docs/{{ site.docs_version }}/components/navbar/"#}
                    role="button">View navbar docs &raquo;</a>
             </div>
         </main>
