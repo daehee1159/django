@@ -6,14 +6,26 @@
 {#blogMain.html만의 내용을 나타냄#}
 
 {% block content %}
-    <main role="main" class="container">
-        <div class="jumbotron">
-            <h1>Navbar example</h1>
-            <p class="lead">This example is a quick exercise to illustrate how fixed to top navbar works. As you scroll, it
-                will remain fixed to the top of your browser’s viewport.</p>
-            <a class="btn btn-lg btn-primary" href="{{ site.baseurl }}/docs/{{ site.docs_version }}/components/navbar/"
-               role="button">View navbar docs &raquo;</a>
-        </div>
-    </main>
+
+    <br>
+
+    {% for blog in blogs %}
+        <main role="main" class="container">
+            <div class="jumbotron">
+                <h1>제목 : {{ blog.title }}</h1>
+                <br>
+                <h4>작성일 : {{ blog.pub_date }}</h4>
+                <br>
+                <h4>작성자 : {{ blog.author }}</h4>
+                <br>
+{#                장고는 기본적으로 <,>,& 등의 문자를 자동적으로 auto-escape함#}
+{#                모든 것에 적용되는 것은 아니므로 이런상황의 경우 safe 필터를 사용#}
+                <p class="lead">{{ blog.body | safe }}</p>
+                <br>
+                <a class="btn btn-lg btn-primary" href="{{ site.baseurl }}/docs/{{ site.docs_version }}/components/navbar/"
+                   role="button">View navbar docs &raquo;</a>
+            </div>
+        </main>
+    {% endfor %}
 {% endblock %}
 

@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect
 from .forms import CreateBlog
+from .models import Blog
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
 
 def blogMain(request):
-    return render(request, 'blogMain.html')
+    # models를 import하고 DB에 저장된 객체를 모두 가리키는 객체 blogs 생성
+    blogs = Blog.objects.all()
+    # 객체 blogs를 blogMain.html에 보내줌
+    return render(request, 'blogMain.html', {'blogs': blogs})
 
 def createBlog(request):
 
