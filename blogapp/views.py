@@ -3,6 +3,8 @@ from .forms import CreateBlog
 from .models import Blog
 from .models import Comment
 from .forms import BlogCommentForm
+# requests 패키지 설치 후 import
+import requests
 # Create your views here.
 
 def index(request):
@@ -107,5 +109,24 @@ def oauth(request):
     access_token_request_uri += '&code=' + code
 
     print(access_token_request_uri)
+
+    # requests패키지를 이용하여 access_token json 데이터 파싱
+    access_token_request_uri_data = requests.get(access_token_request_uri)
+    json_data = access_token_request_uri_data.json()
+    access_token = json_data['access_token']
+    print('access_token = ' + access_token)
+    # requests패키지를 이용하여 user_profile json 데이터 파싱
+    user_profile_info_uri = "https://kapi.kakao.com/v1/api/talk/profile?access_token="
+    user_profile_info_uri += str(access_token)
+
+    user_profile_info_uri_data = requests.get(user_profile_info_uri)
+    user_json_data = user_profile_info_uri_data.json()
+    nickName = user_json_data['nickName']
+    profileImageURL = user_json_data['profileImageURL']
+    thumbnailURL = user_json_data['thumbnailURL']
+
+    print("nickName = " + str(nickName))
+    print("profileImageURL = " + str(profileImageURL))
+    print("thumbnailURL = " + str(thumbnailURL))
 
     return redirect('blogMain')
