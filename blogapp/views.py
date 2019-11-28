@@ -65,6 +65,9 @@ def detail(request, blog_id):
             login_request_url += 'client_id=' + client_id
             login_request_url += '&redirect_uri=' + redirect_uri
             login_request_url += '&response_type=code'
+            # client_id와 redirect_uri 값을 세션으로 보냄
+            request.session['client_id'] = client_id
+            request.session['redirect_uri'] = redirect_uri
 
             return redirect(login_request_url)
         else:
@@ -92,4 +95,17 @@ def detail(request, blog_id):
 def oauth(request):
     code = request.GET['code']
     print('code = ' + str(code))
+    # client_id와 redirect_uri 값을 세션으로 보냈으니 oauth()에서 그 세션 값을 받아옴
+    client_id = request.session.get('client_id')
+    redirect_uri = request.session.get('redirect_uri')
+
+    # code값을 추가하여  access_token을 얻을 수 있느 최종 uri
+    access_token_request_uri = 'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&'
+
+    access_token_request_uri += 'client_id=' + client_id
+    access_token_request_uri += '&redirect_uri=' + redirect_uri
+    access_token_request_uri += '&code=' + code
+
+    print(access_token_request_uri)
+
     return redirect('blogMain')
