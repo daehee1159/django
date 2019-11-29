@@ -5,6 +5,8 @@ from .models import Comment
 from .forms import BlogCommentForm
 # requests 패키지 설치 후 import
 import requests
+# json 형태로 변환하는 작업을 위한
+import json
 # Create your views here.
 
 def index(request):
@@ -66,7 +68,8 @@ def detail(request, blog_id):
 
             login_request_url += 'client_id=' + client_id
             login_request_url += '&redirect_uri=' + redirect_uri
-            login_request_url += '&response_type=code'
+            # 나에게 보내기 동적동의 부분 + &scope=talk_message 추가됨
+            login_request_url += '&response_type=code&scope=talk_message'
             # client_id와 redirect_uri 값을 세션으로 보냄
             request.session['client_id'] = client_id
             request.session['redirect_uri'] = redirect_uri
@@ -128,5 +131,77 @@ def oauth(request):
     print("nickName = " + str(nickName))
     print("profileImageURL = " + str(profileImageURL))
     print("thumbnailURL = " + str(thumbnailURL))
+
+    # 기본 템플릿 보내기 -> 피드템플릿 보내기 request
+    # 해당 데이터를 요청하기 위해 requests 패키지의 request() 함수를 이용
+    # request()함수는 method, uri, 기타인자를 요구함
+    # request(method, uri, kwargs)
+    template_dict_data = str({
+        "object_type": "feed",
+        "content": {
+            "title": "디저트 사진",
+            "description": "아메리카노, 빵, 케익",
+            "image_url": "http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+            "image_width": 640,
+            "image_height": 640,
+            "link": {
+                "web_url": "http://www.daum.net",
+                "mobile_web_url": "http://m.daum.net",
+                "android_execution_params": "contentId=100",
+                "ios_execution_params": "contentId=100"
+            }
+        },
+        "social": {
+            "like_count": 100,
+            "comment_count": 200,
+            "shared_count": 300,
+            "view_count": 400,
+            "subscriber_count": 500
+        },
+        "buttons": [
+            {
+                "title": "웹으로 이동",
+                "link": {
+                    "web_url": "http://www.daum.net",
+                    "mobile_web_url": "http://m.daum.net"
+                }
+            },
+            {
+                "title": "앱으로 이동",
+                "link": {
+                    "android_execution_params": "contentId=100",
+                    "ios_execution_params": "contentId=100"
+                }
+            }
+        ]
+    })
+    # print(template_dict_data)
+
+    # 요청할 uri 변수 생성
+    kakao_to_me_uri = 'https://kapi.kakao.com/v2/api/talk/memo/default/send'
+
+    # header 구성, 위에서 얻은 access_token과 함께 구성
+    # Content-Type은 여러 종류가 있지만 지금은 template_object= 와 같이 키 = 값 의 형태로 전달해야함
+    # POST로 전송하므로 application/x-www-form-urlencoded 타입을 사용
+    # POST로 데이터를 전송할 때 multipart/form-data 의 경우 파일의 형태가 포함될 경우에 사용
+    headers = {
+        'Content-Type': "application/x-www-form-urlencoded",
+        'Authorization': "Bearer " + access_token,
+    }
+
+    # json.dumps() 함수를 사용하면 딕셔너리를 JSON 데이터 형태로 변환해줌
+    # template_object 변수와 함께 보내야 되므로 문자열로 구성
+    template_json_data = "template_object=" + str(json.dumps(template_dict_data))
+    # print(template_json_data)
+
+    # template_json_data는 print()로 출력해보면 ""로 감싸고 있으므로 이를 없애줌
+    template_json_data = template_json_data.replace("\"", "")
+    # template_json_data를  JSON 형태로 인식하기 위한 작업
+    # JSON 데이터는 키 값이 ''로 감싸고 있는 것이 아니라 ""로 감싸고 있기 때문
+    template_json_data = template_json_data.replace("'", "\"")
+
+    response = requests.request(method="POST", url=kakao_to_me_uri, data=template_json_data, headers=headers)
+    print(template_json_data)
+    print(response.json())
 
     return redirect('blogMain')
